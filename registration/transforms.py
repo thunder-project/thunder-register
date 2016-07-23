@@ -140,3 +140,52 @@ class LocalDisplacement(Transformation):
 
     def __repr__(self):
         return "LocalDisplacement(delta=%s)" % repr(self.delta)
+
+
+class SimpleITKTransformation(Transformation):
+    """
+
+    Attributes
+    ----------
+    transform_estimator
+
+    transform
+
+    """
+    def __init__(self, transform_estimator=None, transform=None):
+        self.transform_estimator = transform_estimator
+        self.transform = transform
+
+    def toarray(self):
+        pass
+
+    def apply(self, im):
+        from SimpleITK import GetImageFromArray, GetArrayFromImage, Resample, sitkBSpline
+        im_ = GetImageFromArray(im)
+        #todo: add default pixel value kwarg
+        im_txed = Resample(im_, self.transform, sitkBSpline)
+        return GetArrayFromImage(im_txed)
+
+    @staticmethod
+    def compute(a, b, transform_estimator):
+        """
+        Estimate SimpleITK transform
+
+        Parameters
+        ----------
+        a : ndarray
+            The first array, treated as the moving image
+
+        b : ndarray
+            The second array, treated as the reference image
+
+        transform_estimator : SimpleITK.Transform object
+            The transformation to be estimated using a and b
+        """
+        from SimpleITK import GetImageFromArray
+        moving, fixed = GetImageFromArray(a), GetImageFromArray(b)
+        tx = transform_estimator.Execute(fixed, moving)
+        return SimpleITKTransformation(transform_estimator=transform_estimator, transform=tx)
+
+    def __repr__(self):
+        print(self.transform.GetParameters())
