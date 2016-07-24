@@ -157,13 +157,14 @@ class SimpleITKTransformation(Transformation):
         self.transform = transform
 
     def toarray(self):
-        pass
+        return self.transform.GetParameters()
 
     def apply(self, im):
         from SimpleITK import GetImageFromArray, GetArrayFromImage, Resample, sitkBSpline
         im_ = GetImageFromArray(im)
-        #todo: add default pixel value kwarg
-        im_txed = Resample(im_, self.transform, sitkBSpline)
+        # for now set fill value to the minimum of the image
+        fill = im.min()
+        im_txed = Resample(im_, self.transform, sitkBSpline, fill)
         return GetArrayFromImage(im_txed)
 
     @staticmethod
@@ -186,6 +187,6 @@ class SimpleITKTransformation(Transformation):
         moving, fixed = GetImageFromArray(a), GetImageFromArray(b)
         tx = transform_estimator.Execute(fixed, moving)
         return SimpleITKTransformation(transform_estimator=transform_estimator, transform=tx)
-
+    # todo: fix this not working
     def __repr__(self):
         print(self.transform.GetParameters())
