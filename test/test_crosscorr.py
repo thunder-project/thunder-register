@@ -7,7 +7,7 @@ from registration import CrossCorr
 pytestmark = pytest.mark.usefixtures("eng")
 
 def test_fit(eng):
-	reference = arange(25).reshape(5, 5)
+    reference = arange(25).reshape(5, 5)
 	algorithm = CrossCorr()
 	deltas = [[1, 2], [-2, 1]]
 	shifted = [shift(reference, delta, mode='wrap', order=0) for delta in deltas]
