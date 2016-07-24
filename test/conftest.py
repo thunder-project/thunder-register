@@ -1,9 +1,11 @@
 import pytest
 import station
 
+
 def pytest_addoption(parser):
     parser.addoption("--engine", action="store", default="local", 
                      help="engine to run tests with")
+
 
 @pytest.fixture(scope='module')
 def eng(request):
@@ -13,3 +15,4 @@ def eng(request):
     if engine == 'spark':
         station.start(spark=True)
         return station.engine()
+    
