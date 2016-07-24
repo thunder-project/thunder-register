@@ -17,10 +17,9 @@ class SimpleITK_Registration(object):
     """
 
     def __init__(self, transform_estimator=None):
-        # todo: replace this with proper type check
         from SimpleITK import ImageRegistrationMethod
         if not isinstance(transform_estimator, ImageRegistrationMethod):
-            raise ValueError('transform_estimator must be instance of SimpleITK.ImageRegistrationMethod')
+            raise ValueError('transform_estimator must be an instance of SimpleITK.ImageRegistrationMethod')
         self.transform_estimator = transform_estimator
 
     def _get(self, image, reference):
