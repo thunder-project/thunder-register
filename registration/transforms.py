@@ -187,6 +187,6 @@ class SimpleITKTransformation(Transformation):
         moving, fixed = GetImageFromArray(a), GetImageFromArray(b)
         tx = transform_estimator.Execute(fixed, moving)
         return SimpleITKTransformation(transform_estimator=transform_estimator, transform=tx)
-    # todo: fix this not working
+
     def __repr__(self):
-        print(self.transform.GetParameters())
+        return 'SimpleITKTransformation (Parameters: {0})'.format(self.transform.GetParameters())
