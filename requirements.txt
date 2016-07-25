@@ -1,5 +1,5 @@
 numpy
 scipy
-SimpleITK
+simpleitk
 thunder-python >= 1.2.0
 
