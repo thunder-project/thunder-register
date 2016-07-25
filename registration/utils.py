@@ -1,6 +1,7 @@
 from thunder.images import fromarray, Images
 from numpy import asarray, ndarray
 
+
 def check_images(data):
     """
     Check and reformat input images if needed
@@ -15,6 +16,7 @@ def check_images(data):
         raise Exception('Number of image dimensions %s must be 2 or 3' % (len(data.shape)))
 
     return data
+
 
 def check_reference(images, reference):
     """
