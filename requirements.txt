@@ -1,3 +1,5 @@
 numpy
 scipy
+SimpleITK
 thunder-python >= 1.2.0
+
